@@ -32,7 +32,7 @@
   --background: oklch(0.978 0.006 79);
   --foreground: oklch(0.145 0.004 60);
   --muted: oklch(0.925 0.006 75);
-  --muted-foreground: oklch(0.43 0.008 65);
+  --muted-foreground: oklch(0.38 0.008 65);
   --border: oklch(0.84 0.006 70);
   --primary: oklch(0.145 0.004 60);
   --primary-foreground: oklch(0.978 0.006 79);
@@ -48,8 +48,8 @@
 }
 
 @layer components {
-  .eyebrow { @apply font-sans text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-muted-foreground; }
-  .section-index { @apply font-sans text-[10px] tabular-nums tracking-[0.12em] text-muted-foreground; }
+  .eyebrow { @apply font-sans text-[11px] font-medium uppercase leading-none tracking-[0.16em] text-muted-foreground; }
+  .section-index { @apply font-sans text-[11px] tabular-nums tracking-[0.1em] text-muted-foreground; }
   .nav-link { @apply relative text-xs tracking-[0.04em] text-muted-foreground transition-colors duration-300 hover:text-foreground; }
   .nav-link::after { content: ''; transform-origin: right; transform: scaleX(0); @apply absolute -bottom-1 left-0 h-px w-full bg-foreground transition-transform duration-300; }
   .nav-link:hover::after { transform-origin: left; transform: scaleX(1); }

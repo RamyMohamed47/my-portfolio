@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: { unoptimized: true },
+  async rewrites() {
+    return [{ source: '/cv-preview', destination: '/Ramy-Mohamed-CV.pdf' }]
+  },
   async headers() {
     return [{
       source: '/(.*)',

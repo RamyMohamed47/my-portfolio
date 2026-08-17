@@ -7,9 +7,8 @@ const sans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' })
 const serif = Instrument_Serif({ subsets: ['latin'], weight: '400', variable: '--font-serif' })
 
 export const metadata: Metadata = {
-  title: 'Alex Mercer — Designer & Developer',
-  description: 'Independent designer and developer creating thoughtful digital products, identities, and experiences.',
-  generator: 'v0.app',
+  title: 'Ramy Mohamed — Backend & Full-Stack Developer',
+  description: 'Backend and full-stack developer building secure APIs, real-time systems, and dependable digital products.',
 }
 
 export const viewport: Viewport = {
