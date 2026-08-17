@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--background);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--background);
+  --color-popover-foreground: var(--foreground);
+  --color-secondary: var(--muted);
+  --color-secondary-foreground: var(--foreground);
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+}
+
+:root {
+  color-scheme: light;
+  --background: oklch(0.978 0.006 79);
+  --foreground: oklch(0.145 0.004 60);
+  --muted: oklch(0.925 0.006 75);
+  --muted-foreground: oklch(0.43 0.008 65);
+  --border: oklch(0.84 0.006 70);
+  --primary: oklch(0.145 0.004 60);
+  --primary-foreground: oklch(0.978 0.006 79);
+  --accent: oklch(0.47 0.11 37);
+  --accent-foreground: oklch(0.978 0.006 79);
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  html { @apply scroll-smooth bg-background; }
+  body { @apply bg-background font-sans text-foreground antialiased; }
+  ::selection { @apply bg-accent text-accent-foreground; }
+}
+
+@layer components {
+  .eyebrow { @apply font-sans text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-muted-foreground; }
+  .section-index { @apply font-sans text-[10px] tabular-nums tracking-[0.12em] text-muted-foreground; }
+  .nav-link { @apply relative text-xs tracking-[0.04em] text-muted-foreground transition-colors duration-300 hover:text-foreground; }
+  .nav-link::after { content: ''; transform-origin: right; transform: scaleX(0); @apply absolute -bottom-1 left-0 h-px w-full bg-foreground transition-transform duration-300; }
+  .nav-link:hover::after { transform-origin: left; transform: scaleX(1); }
+  .text-link { @apply relative inline-block; }
+  .text-link::after { content: ''; transform-origin: left; @apply absolute bottom-0 left-0 h-px w-full bg-current transition-transform duration-500; }
+  .text-link:hover::after { transform: scaleX(0.32); }
+  .editorial-rule { @apply border-t border-border; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
