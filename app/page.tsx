@@ -2,14 +2,7 @@ import { AboutSection } from '@/components/about-section'
 import { CvViewer } from '@/components/cv-viewer'
 import { ProjectGrid } from '@/components/project-grid'
 import { SiteHeader } from '@/components/site-header'
-
-const selectedWork = [
-  ['Current', 'InTouch', 'Full-stack real-time SaaS'],
-  ['Mobile', 'Munir', 'Backend API for Flutter'],
-  ['Extended', 'Natours', 'Customized guided full-stack build'],
-]
-
-const technologies = ['TypeScript', 'Node.js', 'Express', 'Next.js', 'MongoDB', 'Socket.IO', 'Firebase', 'Flutter']
+import { SkillsSection } from '@/components/skills-section'
 
 const contactDetails = [
   {
@@ -54,9 +47,9 @@ export default function Page() {
             </h1>
           </div>
           <div className="mt-24 grid grid-cols-12 items-end gap-4 border-t border-border pt-4 md:gap-8">
-            <span className="section-index col-span-2">Introduction</span>
-            <p className="col-span-10 max-w-lg text-sm leading-6 text-muted-foreground md:col-span-5 md:text-base md:leading-7">I&apos;m Ramy Mohamed, a developer focused on secure APIs, clean architecture, authentication, and full-stack products that hold up beyond the demo.</p>
-            <a href="#work" className="group col-span-10 col-start-3 mt-8 flex items-center justify-between border-b border-foreground pb-2 text-xs tracking-[0.04em] md:col-span-3 md:col-start-10 md:mt-0">View selected work <span className="transition-transform duration-500 group-hover:translate-y-1">↓</span></a>
+            <span className="section-index col-span-3 sm:col-span-2">Introduction</span>
+            <p className="col-span-9 max-w-lg text-sm leading-6 text-muted-foreground sm:col-span-10 md:col-span-5 md:text-base md:leading-7">I&apos;m Ramy Mohamed, a developer focused on secure APIs, clean architecture, authentication, and full-stack products that hold up beyond the demo.</p>
+            <a href="#work" className="group col-span-9 col-start-4 mt-8 flex items-center justify-between border-b border-foreground pb-2 text-xs tracking-[0.04em] sm:col-span-10 sm:col-start-3 md:col-span-3 md:col-start-10 md:mt-0">View selected work <span className="transition-transform duration-500 group-hover:translate-y-1">↓</span></a>
           </div>
         </section>
 
@@ -74,30 +67,15 @@ export default function Page() {
 
         <AboutSection />
 
-        <section className="border-t border-foreground py-24 md:py-32">
-          <div className="mb-20 grid grid-cols-12 gap-4 md:mb-24 md:gap-8"><p className="section-index col-span-2">03</p><p className="eyebrow col-span-10">Selected development work</p></div>
-          <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
-            <div className="md:col-span-10 md:col-start-3">
-              {selectedWork.map(([label, project, role], index) => (
-                <div key={project} className="grid grid-cols-[5rem_1fr] gap-4 border-t border-border py-4 text-sm first:border-foreground md:grid-cols-12 md:gap-8 md:py-5">
-                  <span className="section-index md:col-span-2">{label}</span><span className="font-medium md:col-span-4">{project}</span><span className="col-start-2 text-muted-foreground md:col-span-5 md:col-start-auto">{role}</span><span className="section-index hidden text-right md:block">0{index + 1}</span>
-                </div>
-              ))}
-              <div className="mt-24 grid grid-cols-1 gap-8 border-t border-foreground pt-5 md:mt-28 md:grid-cols-10">
-                <p className="eyebrow md:col-span-2">Core technologies</p>
-                <p className="text-pretty font-serif text-[clamp(2.25rem,3.5vw,4.25rem)] leading-[1.04] tracking-[-0.02em] text-muted-foreground md:col-span-8">{technologies.join(', ')}.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <SkillsSection />
 
         <section id="contact" className="scroll-mt-16 border-t border-foreground py-20 md:py-28">
           <div className="grid grid-cols-12 gap-4 md:gap-8"><p className="section-index col-span-2">04</p><p className="eyebrow col-span-10">Start a conversation</p></div>
           <h2 className="mt-24 text-pretty font-serif text-[clamp(3.75rem,9vw,9rem)] leading-[0.84] tracking-[-0.04em] md:ml-[8.333%] md:mt-28">Let&apos;s build<br />something reliable.</h2>
           <div className="mt-20 grid grid-cols-12 gap-4 border-t border-border pt-4 md:mt-24 md:gap-8">
-            <span className="section-index col-span-2">Connect</span>
-            <p className="col-span-10 max-w-md text-sm leading-6 text-muted-foreground md:col-span-4">Open to backend and full-stack opportunities, product collaborations, and thoughtful engineering conversations.</p>
-            <div className="col-span-10 col-start-3 mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 md:col-span-4 md:col-start-9 md:mt-0 md:justify-end">
+            <span className="section-index col-span-3 sm:col-span-2">Connect</span>
+            <p className="col-span-9 max-w-md text-sm leading-6 text-muted-foreground sm:col-span-10 md:col-span-4">Open to backend and full-stack opportunities, product collaborations, and thoughtful engineering conversations.</p>
+            <div className="col-span-9 col-start-4 mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 sm:col-span-10 sm:col-start-3 md:col-span-4 md:col-start-9 md:mt-0 md:justify-end">
               <CvViewer />
               <a href="/Ramy-Mohamed-CV.pdf" download="Ramy-Mohamed-CV.pdf" className="border border-foreground bg-foreground px-4 py-3 text-[10px] font-medium uppercase tracking-[0.14em] text-background transition-colors duration-300 hover:bg-transparent hover:text-foreground">Download CV ↓</a>
             </div>
@@ -121,7 +99,7 @@ export default function Page() {
         </section>
       </main>
       <footer className="border-t border-border">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-5 py-6 text-[10px] uppercase tracking-[0.1em] text-muted-foreground md:grid-cols-12 md:px-10 lg:px-14">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-5 py-6 text-xs font-semibold uppercase tracking-[0.09em] text-muted-foreground md:grid-cols-12 md:px-10 md:text-[13px] lg:px-14">
           <p className="md:col-span-4">© 2026 Ramy Mohamed. Built with care.</p>
           <div className="flex flex-wrap justify-start gap-x-5 gap-y-3 md:col-span-7 md:col-start-6 md:justify-end md:gap-x-8">
             <a className="nav-link" href="https://github.com/RamyMohamed47" target="_blank" rel="noreferrer">GitHub</a>

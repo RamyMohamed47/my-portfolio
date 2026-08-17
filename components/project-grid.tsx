@@ -1,3 +1,12 @@
+import Image from 'next/image'
+
+type ProjectImage = {
+  src: string
+  width: number
+  height: number
+  alt: string
+}
+
 type Project = {
   id: string
   index: string
@@ -13,7 +22,10 @@ type Project = {
   links: { label: string; href: string }[]
   className: string
   ratio: string
-  visual: 'intouch' | 'munir' | 'natours'
+  logo: Omit<ProjectImage, 'alt'>
+  screenshots: [ProjectImage, ProjectImage]
+  mediaLayout: 'landscape' | 'landscape-stacked' | 'portrait'
+  mediaBackground: string
 }
 
 const projects: Project[] = [
@@ -41,8 +53,28 @@ const projects: Project[] = [
       },
     ],
     className: 'md:col-span-10',
-    ratio: 'aspect-[16/10]',
-    visual: 'intouch',
+    ratio: 'aspect-[4/5] sm:aspect-[16/10]',
+    logo: {
+      src: '/projects/intouch/logo.jpeg',
+      width: 1254,
+      height: 1254,
+    },
+    screenshots: [
+      {
+        src: '/projects/intouch/sign-in.jpeg',
+        width: 1599,
+        height: 854,
+        alt: 'InTouch sign-in screen with the collaboration workspace branding.',
+      },
+      {
+        src: '/projects/intouch/channel.jpeg',
+        width: 1599,
+        height: 849,
+        alt: 'InTouch DevOps channel showing the workspace sidebar and real-time chat interface.',
+      },
+    ],
+    mediaLayout: 'landscape',
+    mediaBackground: '#07101f',
   },
   {
     id: 'munir',
@@ -69,7 +101,27 @@ const projects: Project[] = [
     ],
     className: 'md:col-span-5 md:col-start-8 md:mt-24',
     ratio: 'aspect-[4/5]',
-    visual: 'munir',
+    logo: {
+      src: '/projects/munir/logo.jpeg',
+      width: 1080,
+      height: 1062,
+    },
+    screenshots: [
+      {
+        src: '/projects/munir/compose.jpeg',
+        width: 720,
+        height: 1511,
+        alt: 'Munir Flutter app screen for composing and submitting a positive message in Arabic.',
+      },
+      {
+        src: '/projects/munir/message.jpeg',
+        width: 720,
+        height: 1508,
+        alt: 'Munir Flutter app screen displaying a received motivational message in Arabic.',
+      },
+    ],
+    mediaLayout: 'portrait',
+    mediaBackground: '#158c77',
   },
   {
     id: 'natours',
@@ -90,96 +142,106 @@ const projects: Project[] = [
     stack: ['Node.js', 'Express', 'MongoDB', 'Mongoose', 'Pug', 'Stripe', 'JWT', 'Mapbox'],
     links: [],
     className: 'md:col-span-6 md:col-start-1 md:mt-24',
-    ratio: 'aspect-[3/2]',
-    visual: 'natours',
+    ratio: 'aspect-[4/5]',
+    logo: {
+      src: '/projects/natours/logo.jpeg',
+      width: 297,
+      height: 297,
+    },
+    screenshots: [
+      {
+        src: '/projects/natours/tour-details.jpeg',
+        width: 1584,
+        height: 854,
+        alt: 'Natours tour details page for The Snow Adventurer.',
+      },
+      {
+        src: '/projects/natours/tour-list.jpeg',
+        width: 1580,
+        height: 852,
+        alt: 'Natours tour listing page showing available adventure cards.',
+      },
+    ],
+    mediaLayout: 'landscape-stacked',
+    mediaBackground: '#e9f0ec',
   },
 ]
 
 function ProjectVisual({ project }: { project: Project }) {
-  if (project.visual === 'intouch') {
-    return (
-      <div className="absolute inset-0 overflow-hidden bg-[#151a19] p-5 text-[#e9f1eb] sm:p-8 md:p-12" aria-hidden="true">
-        <div className="flex h-full gap-3 rounded-sm border border-white/15 bg-[#1d2422] p-3 shadow-2xl sm:gap-5 sm:p-5">
-          <div className="hidden w-[24%] shrink-0 flex-col justify-between border-r border-white/10 pr-4 sm:flex">
-            <div>
-              <p className="text-[9px] uppercase tracking-[0.22em] text-emerald-300">InTouch</p>
-              <div className="mt-8 space-y-3 text-[10px] text-white/50">
-                <div className="h-2 w-2/3 rounded-full bg-white/25" />
-                <div className="h-2 w-4/5 rounded-full bg-emerald-300/45" />
-                <div className="h-2 w-1/2 rounded-full bg-white/20" />
-              </div>
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{ backgroundColor: project.mediaBackground }}
+      data-project-media={project.id}
+    >
+      {project.mediaLayout === 'portrait' ? (
+        <div className="flex h-full items-center justify-center gap-3 p-5 sm:gap-5 sm:p-8">
+          {project.screenshots.map((screenshot, index) => (
+            <div
+              key={screenshot.src}
+              className={`h-[86%] overflow-hidden border border-white/35 bg-white shadow-2xl ${index === 0 ? '-translate-y-[3%]' : 'translate-y-[3%]'}`}
+            >
+              <Image
+                src={screenshot.src}
+                width={screenshot.width}
+                height={screenshot.height}
+                alt={screenshot.alt}
+                sizes="(max-width: 767px) 38vw, 17vw"
+                className="h-full w-auto max-w-none object-contain"
+              />
             </div>
-            <div className="flex items-center gap-2 text-[9px] text-white/45">
-              <span className="h-2 w-2 rounded-full bg-emerald-300" /> Live workspace
-            </div>
-          </div>
-          <div className="flex min-w-0 flex-1 flex-col">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div>
-                <p className="text-[10px] text-white/45">Engineering</p>
-                <p className="mt-1 text-xs font-medium sm:text-sm"># product-build</p>
-              </div>
-              <div className="flex -space-x-1.5">
-                {[0, 1, 2].map((item) => (
-                  <span key={item} className="h-5 w-5 rounded-full border border-[#1d2422] bg-emerald-200/60" />
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-1 flex-col justify-end gap-4 py-4 sm:gap-6">
-              <div className="flex gap-3">
-                <span className="h-7 w-7 shrink-0 rounded-full bg-[#d8bc95]" />
-                <div className="w-full">
-                  <div className="h-2 w-24 rounded-full bg-white/35" />
-                  <div className="mt-3 h-2 w-[82%] rounded-full bg-white/15" />
-                  <div className="mt-2 h-2 w-[62%] rounded-full bg-white/15" />
-                </div>
-              </div>
-              <div className="ml-8 rounded-sm border border-emerald-200/15 bg-emerald-200/5 p-3 text-[9px] text-emerald-100/60 sm:ml-10 sm:p-4">
-                Real-time messages, presence, typing and read receipts
-              </div>
-            </div>
-            <div className="flex items-center justify-between border-t border-white/10 pt-3 text-[9px] text-white/35">
-              <span>Message #product-build</span><span>Socket connected</span>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
-    )
-  }
+      ) : (
+        <div className={`grid h-full grid-cols-1 items-center gap-3 p-4 sm:gap-5 sm:p-7 md:gap-7 md:p-10 ${project.mediaLayout === 'landscape' ? 'sm:grid-cols-2' : ''}`}>
+          {project.screenshots.map((screenshot, index) => (
+            <div
+              key={screenshot.src}
+              className={`overflow-hidden border border-black/15 bg-white shadow-2xl ${project.mediaLayout === 'landscape-stacked' ? (index === 0 ? '-translate-x-[3%]' : 'translate-x-[3%]') : (index === 0 ? '-translate-x-[3%] sm:translate-x-0 sm:-translate-y-[10%]' : 'translate-x-[3%] sm:translate-x-0 sm:translate-y-[10%]')}`}
+            >
+              <Image
+                src={screenshot.src}
+                width={screenshot.width}
+                height={screenshot.height}
+                alt={screenshot.alt}
+                sizes="(max-width: 767px) 43vw, 38vw"
+                className="h-auto w-full object-contain"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
-  if (project.visual === 'munir') {
-    return (
-      <div className="absolute inset-0 overflow-hidden bg-[#e7d9ba] p-7 text-[#202a32] sm:p-10" aria-hidden="true">
-        <div className="relative mx-auto flex h-full max-w-sm items-center justify-center">
-          <div className="absolute left-0 top-[18%] rounded-full border border-[#202a32]/30 bg-[#f5eedf] px-3 py-2 text-[8px] uppercase tracking-[0.14em] shadow-sm">Firebase auth</div>
-          <div className="absolute bottom-[18%] right-0 rounded-full border border-[#202a32]/30 bg-[#f5eedf] px-3 py-2 text-[8px] uppercase tracking-[0.14em] shadow-sm">MongoDB API</div>
-          <div className="relative h-[82%] w-[48%] min-w-28 rounded-[1.8rem] border-[5px] border-[#202a32] bg-[#f8f3e8] p-3 shadow-2xl">
-            <div className="mx-auto h-1 w-10 rounded-full bg-[#202a32]/30" />
-            <p className="mt-6 text-center font-serif text-2xl leading-none sm:text-3xl">Munir</p>
-            <p className="mt-2 text-center text-[7px] uppercase tracking-[0.18em] text-[#202a32]/55">A brighter daily rhythm</p>
-            <div className="mt-7 border-y border-[#202a32]/20 py-5 text-center font-serif text-sm leading-5 sm:text-base">“Small steps still move you forward.”</div>
-            <div className="mt-5 flex justify-center"><span className="rounded-full bg-[#d9a441] px-3 py-1.5 text-[7px] uppercase tracking-[0.15em] text-white">Save message</span></div>
-          </div>
-          <div className="absolute left-[13%] top-[31%] h-px w-[20%] bg-[#202a32]/25" />
-          <div className="absolute bottom-[30%] right-[12%] h-px w-[22%] bg-[#202a32]/25" />
-        </div>
-      </div>
-    )
-  }
+function ProjectTitle({ project, detailed = false }: { project: Project; detailed?: boolean }) {
+  const isNatours = project.id === 'natours'
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-[#173f35] text-[#f2ead6]" aria-hidden="true">
-      <div className="absolute inset-x-0 bottom-0 h-[62%] bg-[linear-gradient(145deg,transparent_42%,#295f4d_43%,#295f4d_62%,transparent_63%),linear-gradient(35deg,transparent_38%,#39745e_39%,#39745e_58%,transparent_59%)] opacity-90" />
-      <div className="absolute left-[10%] top-[12%]">
-        <p className="text-[8px] uppercase tracking-[0.28em] text-[#d6c28f]">Explore differently</p>
-        <p className="mt-2 font-serif text-4xl leading-none sm:text-6xl">Natours</p>
-      </div>
-      <div className="absolute bottom-[12%] right-[8%] w-[48%] border border-white/25 bg-[#f2ead6] p-3 text-[#173f35] shadow-2xl sm:p-5">
-        <div className="h-12 bg-[#b5c7a0] sm:h-20" />
-        <p className="mt-3 text-[9px] font-medium uppercase tracking-[0.12em]">The Forest Hiker</p>
-        <div className="mt-2 flex justify-between text-[8px] text-[#173f35]/60"><span>7 days</span><span>From $497</span></div>
-      </div>
-      <span className="absolute right-[16%] top-[15%] h-12 w-12 rounded-full bg-[#d6c28f] opacity-80 sm:h-20 sm:w-20" />
+    <div className="flex items-center gap-3 md:gap-4">
+      <span
+        className={`relative shrink-0 overflow-hidden rounded-[0.75rem] ${isNatours ? 'bg-[#52c67f]' : 'bg-white'} ${detailed ? 'h-14 w-14 md:h-16 md:w-16' : 'h-9 w-9'}`}
+        aria-hidden="true"
+      >
+        <Image
+          src={project.logo.src}
+          width={project.logo.width}
+          height={project.logo.height}
+          alt=""
+          sizes={detailed ? '(max-width: 767px) 56px, 64px' : '36px'}
+          className={`h-full w-full object-cover ${isNatours ? 'rounded-full' : ''}`}
+        />
+      </span>
+      <h3
+        className={
+          detailed
+            ? 'font-serif text-[clamp(2.7rem,4.25vw,4.75rem)] leading-[0.94] tracking-[-0.03em]'
+            : 'font-sans text-base font-medium tracking-[-0.02em] transition-transform duration-500 ease-out group-hover:translate-x-1 md:text-lg'
+        }
+      >
+        {project.title}
+      </h3>
     </div>
   )
 }
@@ -199,8 +261,8 @@ export function ProjectGrid() {
                 <span className="section-index pt-1">{project.index}</span>
                 <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
                   <div>
-                    <h3 className="font-sans text-base font-medium tracking-[-0.02em] transition-transform duration-500 ease-out group-hover:translate-x-1 md:text-lg">{project.title}</h3>
-                    <p className="mt-1 max-w-md text-[15px] leading-6 text-muted-foreground">{project.description}</p>
+                    <ProjectTitle project={project} />
+                    <p className="mt-2 max-w-md text-[15px] leading-6 text-muted-foreground">{project.description}</p>
                   </div>
                   <div className="flex gap-3 text-[10px] uppercase leading-5 tracking-[0.14em] text-muted-foreground sm:flex-col sm:items-end sm:gap-0">
                     <span>{project.category}</span><span>{project.status}</span>
@@ -219,7 +281,7 @@ export function ProjectGrid() {
               <p className="section-index col-span-2">{project.index}</p>
               <div className="col-span-10 md:col-span-4">
                 <p className="eyebrow mb-5">{project.category} / Case study</p>
-                <h3 className="font-serif text-[clamp(2.7rem,4.25vw,4.75rem)] leading-[0.94] tracking-[-0.03em]">{project.title}</h3>
+                <ProjectTitle project={project} detailed />
                 <p className="mt-7 max-w-md text-base leading-7 text-muted-foreground">{project.overview}</p>
                 {project.links.length > 0 && (
                   <div className="mt-8 flex flex-wrap gap-5">
