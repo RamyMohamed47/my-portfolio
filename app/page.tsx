@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import { AboutSection } from '@/components/about-section'
 import { CvViewer } from '@/components/cv-viewer'
 import { ProjectGrid } from '@/components/project-grid'
@@ -47,7 +49,19 @@ export default function Page() {
             </h1>
           </div>
           <div className="mt-24 grid grid-cols-12 items-end gap-4 border-t border-border pt-4 md:gap-8">
-            <span className="section-index col-span-3 sm:col-span-2">Introduction</span>
+            <div className="col-span-3 sm:col-span-2">
+              <div className="relative aspect-[4/5] w-16 overflow-hidden rounded-[0.75rem] border border-border bg-muted sm:w-20 md:w-24 lg:w-28">
+                <Image
+                  src="/ramy-mohamed-headshot.jpeg"
+                  alt="Portrait of Ramy Mohamed"
+                  fill
+                  priority
+                  sizes="(max-width: 639px) 64px, (max-width: 767px) 80px, (max-width: 1023px) 96px, 112px"
+                  className="origin-top scale-[1.55] object-cover object-top"
+                />
+              </div>
+              <span className="section-index mt-3 block">Introduction</span>
+            </div>
             <p className="col-span-9 max-w-lg text-sm leading-6 text-muted-foreground sm:col-span-10 md:col-span-5 md:text-base md:leading-7">I&apos;m Ramy Mohamed, a developer focused on secure APIs, clean architecture, authentication, and full-stack products that hold up beyond the demo.</p>
             <a href="#work" className="group col-span-9 col-start-4 mt-8 flex items-center justify-between border-b border-foreground pb-2 text-xs tracking-[0.04em] sm:col-span-10 sm:col-start-3 md:col-span-3 md:col-start-10 md:mt-0">View selected work <span className="transition-transform duration-500 group-hover:translate-y-1">↓</span></a>
           </div>
