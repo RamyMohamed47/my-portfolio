@@ -23,8 +23,8 @@ type Project = {
   className: string
   ratio: string
   logo: Omit<ProjectImage, 'alt'>
-  screenshots: [ProjectImage, ProjectImage]
-  mediaLayout: 'landscape' | 'landscape-stacked' | 'portrait'
+  screenshots: ProjectImage[]
+  mediaLayout: 'landscape' | 'feature-stack' | 'portrait'
   mediaBackground: string
 }
 
@@ -124,46 +124,52 @@ const projects: Project[] = [
     mediaBackground: '#158c77',
   },
   {
-    id: 'natours',
+    id: 'wadiways',
     index: '03',
-    title: 'Natours',
-    category: 'Full-stack platform',
-    status: 'Customized guided build',
+    title: 'WadiWays',
+    category: 'Travel platform',
+    status: 'Reengineered product',
     description:
-      'A heavily modified tour-booking platform developed from a course-guided foundation.',
+      'An Egypt-focused booking platform with hardened authentication, operational logging, and admin tooling.',
     overview:
-      'Natours combines tour discovery, geospatial search, reviews, user accounts, image processing, bookings, and online payments in a complete server-rendered product.',
+      'WadiWays turns Egyptian destinations into a complete booking experience spanning itinerary discovery, experience details, accounts, reviews, Stripe test checkout, and administrative workflows.',
     contribution:
-      'I used the guided project as a foundation, then made substantial modifications across the backend and product behavior while working through production-style application concerns.',
+      'I rebranded and substantially extended the platform across the backend and server-rendered frontend, adding login rate limiting, structured application logging, refresh-token authentication, and admin-facing product controls.',
     challenge:
-      'Coordinating protected resources, nested reviews, booking state, media processing, geospatial data, and payments across one Express application.',
+      'Evolving a feature-rich Express application while keeping authentication resilient, operational behavior observable, and privileged administration flows properly separated.',
     solution:
-      'JWT authentication and role rules, reusable controller patterns, MongoDB aggregation and geospatial indexes, server-side image processing, and Stripe Checkout sessions.',
-    stack: ['Node.js', 'Express', 'MongoDB', 'Mongoose', 'Pug', 'Stripe', 'JWT', 'Mapbox'],
+      'An access-and-refresh-token flow, throttled login attempts, structured logs, role-gated admin interfaces, reusable controller patterns, and Stripe Checkout sessions.',
+    stack: ['Node.js', 'Express', 'MongoDB', 'Mongoose', 'Pug', 'Stripe', 'JWT', 'Rate limiting'],
     links: [],
     className: 'md:col-span-6 md:col-start-1 md:mt-24',
     ratio: 'aspect-[4/5]',
     logo: {
-      src: '/projects/natours/logo.jpeg',
-      width: 297,
-      height: 297,
+      src: '/projects/wadiways/logo.png',
+      width: 1024,
+      height: 1024,
     },
     screenshots: [
       {
-        src: '/projects/natours/tour-details.jpeg',
-        width: 1584,
-        height: 854,
-        alt: 'Natours tour details page for The Snow Adventurer.',
+        src: '/projects/wadiways/explore.webp',
+        width: 1600,
+        height: 766,
+        alt: 'WadiWays Explore Egypt page showing destination experience cards.',
       },
       {
-        src: '/projects/natours/tour-list.jpeg',
-        width: 1580,
-        height: 852,
-        alt: 'Natours tour listing page showing available adventure cards.',
+        src: '/projects/wadiways/experience.webp',
+        width: 1600,
+        height: 766,
+        alt: 'WadiWays experience detail page for a Luxor West Bank cycling trip.',
+      },
+      {
+        src: '/projects/wadiways/sign-in.webp',
+        width: 1600,
+        height: 764,
+        alt: 'WadiWays login page with email, Google, and GitHub authentication options.',
       },
     ],
-    mediaLayout: 'landscape-stacked',
-    mediaBackground: '#e9f0ec',
+    mediaLayout: 'feature-stack',
+    mediaBackground: '#eaf2fb',
   },
 ]
 
@@ -192,12 +198,30 @@ function ProjectVisual({ project }: { project: Project }) {
             </div>
           ))}
         </div>
+      ) : project.mediaLayout === 'feature-stack' ? (
+        <div className="flex h-full flex-col items-center justify-center gap-3 p-4 sm:gap-4 sm:p-7 md:gap-5 md:p-10">
+          {project.screenshots.map((screenshot, index) => (
+            <div
+              key={screenshot.src}
+              className={`w-[82%] overflow-hidden rounded-[0.5rem] border border-black/15 bg-white shadow-2xl ${index === 0 ? '-translate-x-[3%]' : index === 1 ? 'translate-x-[3%]' : '-translate-x-[1%]'}`}
+            >
+              <Image
+                src={screenshot.src}
+                width={screenshot.width}
+                height={screenshot.height}
+                alt={screenshot.alt}
+                sizes="(max-width: 767px) 70vw, 32vw"
+                className="h-auto w-full object-contain"
+              />
+            </div>
+          ))}
+        </div>
       ) : (
         <div className={`grid h-full grid-cols-1 items-center gap-3 p-4 sm:gap-5 sm:p-7 md:gap-7 md:p-10 ${project.mediaLayout === 'landscape' ? 'sm:grid-cols-2' : ''}`}>
           {project.screenshots.map((screenshot, index) => (
             <div
               key={screenshot.src}
-              className={`overflow-hidden border border-black/15 bg-white shadow-2xl ${project.mediaLayout === 'landscape-stacked' ? (index === 0 ? '-translate-x-[3%]' : 'translate-x-[3%]') : (index === 0 ? '-translate-x-[3%] sm:translate-x-0 sm:-translate-y-[10%]' : 'translate-x-[3%] sm:translate-x-0 sm:translate-y-[10%]')}`}
+              className={`overflow-hidden border border-black/15 bg-white shadow-2xl ${index === 0 ? '-translate-x-[3%] sm:translate-x-0 sm:-translate-y-[10%]' : 'translate-x-[3%] sm:translate-x-0 sm:translate-y-[10%]'}`}
             >
               <Image
                 src={screenshot.src}
@@ -216,12 +240,12 @@ function ProjectVisual({ project }: { project: Project }) {
 }
 
 function ProjectTitle({ project, detailed = false }: { project: Project; detailed?: boolean }) {
-  const isNatours = project.id === 'natours'
+  const isWadiWays = project.id === 'wadiways'
 
   return (
     <div className="flex items-center gap-3 md:gap-4">
       <span
-        className={`relative shrink-0 overflow-hidden rounded-[0.75rem] ${isNatours ? 'bg-[#52c67f]' : 'bg-white'} ${detailed ? 'h-14 w-14 md:h-16 md:w-16' : 'h-9 w-9'}`}
+        className={`relative shrink-0 overflow-hidden rounded-[0.75rem] ${isWadiWays ? 'bg-[#eaf2fb]' : 'bg-white'} ${detailed ? 'h-14 w-14 md:h-16 md:w-16' : 'h-9 w-9'}`}
         aria-hidden="true"
       >
         <Image
@@ -230,7 +254,7 @@ function ProjectTitle({ project, detailed = false }: { project: Project; detaile
           height={project.logo.height}
           alt=""
           sizes={detailed ? '(max-width: 767px) 56px, 64px' : '36px'}
-          className={`h-full w-full object-cover ${isNatours ? 'rounded-full' : ''}`}
+          className={`h-full w-full ${isWadiWays ? 'object-contain p-1' : 'object-cover'}`}
         />
       </span>
       <h3
