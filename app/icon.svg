@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Ramy Mohamed</title>
+  <style>
+    .tile { fill: #111111; }
+    .monogram { stroke: #f7f4ee; }
+
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #f7f4ee; }
+      .monogram { stroke: #111111; }
+    }
+  </style>
+
+  <rect class="tile" width="64" height="64" rx="14" />
+  <g
+    class="monogram"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="5"
+  >
+    <path d="M13.5 48V16h10c6.4 0 10 3.7 10 9.5S29.9 35 23.5 35h-10M23.5 35 34 48" />
+    <path d="M38 48V16l8.5 16L55 16v32" />
+  </g>
+</svg>
