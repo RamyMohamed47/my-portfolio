@@ -146,7 +146,12 @@ const projects: Project[] = [
     solution:
       'An access-and-refresh-token flow, throttled login attempts, structured logs, role-gated admin interfaces, reusable controller patterns, and Stripe Checkout sessions.',
     stack: ['Node.js', 'Express', 'MongoDB', 'Mongoose', 'Pug', 'Stripe', 'JWT', 'Rate limiting'],
-    links: [],
+    links: [
+      {
+        label: 'GitHub',
+        href: 'https://github.com/RamyMohamed47/wadiways',
+      },
+    ],
     className: 'md:col-span-6 md:col-start-1 md:mt-24',
     ratio: 'aspect-[4/5]',
     logo: {
