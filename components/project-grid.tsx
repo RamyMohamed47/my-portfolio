@@ -24,7 +24,7 @@ type Project = {
   ratio: string
   logo: Omit<ProjectImage, 'alt'>
   screenshots: ProjectImage[]
-  mediaLayout: 'landscape' | 'feature-stack' | 'portrait'
+  mediaLayout: 'landscape-mosaic' | 'feature-stack' | 'portrait'
   mediaBackground: string
 }
 
@@ -36,16 +36,16 @@ const projects: Project[] = [
     category: 'Real-time SaaS',
     status: 'Ongoing',
     description:
-      'A full-stack, multi-tenant communication platform built for secure, real-time collaboration.',
+      'A production-minded communication SaaS with real-time messaging, private uploads, live calls, and voice channels.',
     overview:
-      'InTouch brings organization spaces, channels, direct messages, invitations, presence, typing indicators, unread counts, and read receipts into one communication product.',
+      'InTouch combines organization workspaces, channels, direct messages, invitations, presence, unread state, media sharing, LiveKit video calls, and ten-person voice channels in one collaboration product.',
     contribution:
-      'I designed and built the TypeScript monorepo across the Express API, Next.js web application, MongoDB persistence layer, shared contracts, authentication flows, and Socket.IO transport.',
+      'I built the TypeScript monorepo across the Express API, Next.js client, MongoDB data layer, and real-time infrastructure: 77 documented REST endpoints, 22 typed Socket.IO events, 460+ automated tests, and 50+ technical documents.',
     challenge:
-      'Keeping REST, real-time events, authentication, and the web client aligned without duplicating contracts or leaking persistence concerns into transport code.',
+      'Coordinating durable messaging, private uploads, live media sessions, background work, and presence across multiple application instances without losing authorization or type safety.',
     solution:
-      'Shared Zod contracts, thin controllers and socket handlers, service and repository boundaries, scoped Socket.IO rooms, and rotating HttpOnly refresh sessions behind a same-origin API proxy.',
-    stack: ['TypeScript', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Socket.IO', 'Zod', 'Playwright'],
+      'Layered controller-service-repository boundaries, shared Zod contracts, MongoDB transactions, Redis-backed distributed state, BullMQ jobs, private Cloudflare R2 uploads, LiveKit WebRTC, and OpenTelemetry/Sentry observability.',
+    stack: ['TypeScript', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Socket.IO', 'Redis', 'BullMQ', 'LiveKit', 'Cloudflare R2', 'Zod', 'OpenTelemetry / Sentry'],
     links: [
       {
         label: 'GitHub',
@@ -67,13 +67,19 @@ const projects: Project[] = [
         alt: 'InTouch sign-in screen with the collaboration workspace branding.',
       },
       {
-        src: '/projects/intouch/channel.jpeg',
-        width: 1599,
-        height: 849,
-        alt: 'InTouch DevOps channel showing the workspace sidebar and real-time chat interface.',
+        src: '/projects/intouch/channel-media.webp',
+        width: 1595,
+        height: 852,
+        alt: 'InTouch DevOps channel showing real-time messages and a privately shared image against a customizable workspace background.',
+      },
+      {
+        src: '/projects/intouch/voice-channel.webp',
+        width: 1596,
+        height: 853,
+        alt: 'InTouch public voice channel showing a connected participant, microphone controls, and connection status.',
       },
     ],
-    mediaLayout: 'landscape',
+    mediaLayout: 'landscape-mosaic',
     mediaBackground: '#07101f',
   },
   {
@@ -185,7 +191,7 @@ function ProjectVisual({ project }: { project: Project }) {
           {project.screenshots.map((screenshot, index) => (
             <div
               key={screenshot.src}
-              className={`h-[86%] overflow-hidden border border-white/35 bg-white shadow-2xl ${index === 0 ? '-translate-y-[3%]' : 'translate-y-[3%]'}`}
+              className={`h-[86%] overflow-hidden rounded-[0.5rem] border border-white/35 bg-white shadow-2xl ${index === 0 ? '-translate-y-[3%]' : 'translate-y-[3%]'}`}
             >
               <Image
                 src={screenshot.src}
@@ -217,18 +223,18 @@ function ProjectVisual({ project }: { project: Project }) {
           ))}
         </div>
       ) : (
-        <div className={`grid h-full grid-cols-1 items-center gap-3 p-4 sm:gap-5 sm:p-7 md:gap-7 md:p-10 ${project.mediaLayout === 'landscape' ? 'sm:grid-cols-2' : ''}`}>
+        <div className="grid h-full grid-cols-2 content-center gap-3 p-4 sm:grid-cols-[1.12fr_1fr] sm:grid-rows-2 sm:content-stretch sm:gap-4 sm:p-7 md:gap-5 md:p-10">
           {project.screenshots.map((screenshot, index) => (
             <div
               key={screenshot.src}
-              className={`overflow-hidden border border-black/15 bg-white shadow-2xl ${index === 0 ? '-translate-x-[3%] sm:translate-x-0 sm:-translate-y-[10%]' : 'translate-x-[3%] sm:translate-x-0 sm:translate-y-[10%]'}`}
+              className={`flex items-center justify-center overflow-hidden rounded-[0.5rem] border border-white/20 bg-[#050a13] shadow-2xl ${index === 0 ? 'col-span-2 sm:col-span-1 sm:row-span-2' : ''}`}
             >
               <Image
                 src={screenshot.src}
                 width={screenshot.width}
                 height={screenshot.height}
                 alt={screenshot.alt}
-                sizes="(max-width: 767px) 43vw, 38vw"
+                sizes={index === 0 ? '(max-width: 639px) 82vw, 39vw' : '(max-width: 639px) 40vw, 34vw'}
                 className="h-auto w-full object-contain"
               />
             </div>
@@ -277,7 +283,7 @@ export function ProjectGrid() {
         {projects.map((project) => (
           <figure key={project.id} className={project.className}>
             <a href={`#${project.id}`} className="group block" aria-label={`Read the ${project.title} case study`}>
-              <div className={`relative overflow-hidden bg-muted ${project.ratio}`}>
+              <div className={`relative overflow-hidden rounded-[1rem] bg-muted ${project.ratio}`}>
                 <ProjectVisual project={project} />
                 <div className="absolute inset-0 bg-black/0 transition-colors duration-700 group-hover:bg-black/[0.035]" />
               </div>
