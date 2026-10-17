@@ -124,7 +124,7 @@ const projects: Project[] = [
     links: [
       {
         label: "Play Store",
-        href: "https://github.com/RamyMohamed47/munirhttps://play.google.com/store/apps/details?id=com.muner.amuner",
+        href: "https://play.google.com/store/apps/details?id=com.muner.amuner",
       },
     ],
     className: "md:col-span-5 md:col-start-8 md:mt-24",
